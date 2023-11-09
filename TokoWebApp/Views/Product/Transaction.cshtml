@@ -1,0 +1,29 @@
+@model TokoWebApp.Models.ProductModel
+@{
+    ViewData["Title"] = "Transaction";
+}
+
+<h1>Beli</h1>
+
+<div class="card shadow my-4">
+    <div class="card-header py-3">
+          <h4 class="m-0 font-weight-bold text-primary">@ViewBag.product.ProductName</h4>
+    </div>
+    <div class="card-body"> 
+        <h5>Stok: @ViewBag.product.Stock</h5>
+        <h5>Harga Satuan: @ViewBag.product.Price</h5> 
+            <form asp-controller="Product" asp-action="Transaction">
+                <input type="hidden" asp-for="ProductId" value="@ViewBag.product.ProductId" />
+                <input type="hidden" asp-for="ProductName" value="@ViewBag.product.ProductName" />
+                <input type="hidden" asp-for="CatId" value="@ViewBag.product.CatId" >
+                <input type="hidden" asp-for="Stock" value="@ViewBag.product.Stock" />
+                <input type="hidden" asp-for="Price" value="@ViewBag.product.Price" />
+
+                <div class="form-group row">
+                    <label class="form-label"> <h5>Jumlah Beli</h5></label>
+                    <input type="number" name="qty" value="1" min="1" max="@ViewBag.product.Stock" />
+                </div>
+                <input type="submit" value="Beli" class="btn btn-primary" />
+            </form>
+    </div>
+</div>

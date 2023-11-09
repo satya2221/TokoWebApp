@@ -1,0 +1,13 @@
+﻿@model TokoWebApp.Models.CategoryModel
+@{
+    ViewData["Title"] = "Edit Product Type";
+}
+<h1>Edit Product Type</h1>
+<form method="post" asp-controller="Category" asp-action="Edit" class="mt-5">
+    <input type="hidden" asp-for="CategoryId" value="@ViewBag.Categories.CategoryId" />
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" asp-for="CategoryName" value="@ViewBag.Categories.CategoryName"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

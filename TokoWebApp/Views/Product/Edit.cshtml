@@ -1,0 +1,38 @@
+@model TokoWebApp.Models.ProductModel
+
+@{
+    ViewData["Title"] = "Edit Product Details";
+}
+<h1>Edit Product Type</h1>
+<form method="post" asp-controller="Product" asp-action="Edit" class="mt-5">
+    <input type="hidden" asp-for="ProductId" value="@ViewBag.product.ProductId" />
+    <div class="mb-3">
+        <label class="form-label"> Product Name</label>
+        <input type="text" class="form-control" asp-for="ProductName" value="@ViewBag.product.ProductName" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label"> Stock </label>
+        <input type="number" min="0" class="form-control" asp-for="Stock" value="@ViewBag.product.Stock"/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label"> Price</label>
+        <input type="number" min="1000" class="form-control" asp-for="Price" value="@ViewBag.product.Price"/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label"> Product Type </label>
+        <select class="form-control" asp-for="CatId">
+            @foreach (var item in ViewBag.Categories)
+            {
+                @if (item.CategoryId == ViewBag.Product.CatId)
+                {
+                    <option value="@item.CategoryId" selected>@item.CategoryName</option>
+                }
+                else
+                {
+                    <option value="@item.CategoryId">@item.CategoryName</option>
+                }
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

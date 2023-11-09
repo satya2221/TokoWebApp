@@ -1,0 +1,122 @@
+@model List<ProductModel>
+@{
+    ViewData["Title"] = "Product Page";
+}
+@section Style{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.css"/>
+}
+@section Navbar{
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            @* <a class="navbar-brand" asp-area="" asp-controller="Product" asp-action="Index">TokoWebApp</a> *@
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Category</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="IndexAdmin">Product</a>
+                    </li>
+                </ul>
+            </div>
+    </nav>
+}
+<h1>All Product</h1>
+<a asp-controller="Product" asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i><span class="mx-2">Create New Product</span></a>
+<div class="card shadow my-4">
+    <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">All Product List</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nama Barang</th>
+                        <th>Jenis Barang</th>
+                        <th>Jumlah Stok</th>
+                        <th>Harga</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model){
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.Cat.CategoryName</td>
+                            <td>@item.Stock</td>
+                            <td>Rp. @item.Price</td>
+                            <td>
+                                <a class="btn btn-warning" asp-controller="Product" asp-route-id="@item.ProductId" asp-action="Edit">Edit</a>
+                                <a class="btn btn-danger" asp-controller="Product" asp-route-id="@item.ProductId" asp-action="Delete">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+          </div>
+    </div>
+</div>
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h6 id="modal_body"></h6>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    @* <a asp-controller="Product" asp-route-id="@item.ProductId" asp-action="Edit">Edit</a> *@
+                </div>
+            </div>
+        </div>
+</div>
+@section Scripts{
+    <script src="~/sb_admin/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/sb_admin/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script>
+    $(function () {
+        $("#example1").DataTable();
+    });
+    </script>
+    @foreach (var item in Model)
+    {
+         <script type="text/javascript"> 
+            $("#@item.ProductId").click(async function () { 
+                const response = fetch(`https://localhost:7275/api/Product/@item.ProductId`, { 
+                    method: `GET`, 
+                    headers: { 
+                        'Content-Type': `application/json` 
+                    } 
+                });
+                const movies = response.json();
+                console.log(movies);
+                @* var name = $("#idTersembunyi").val(); 
+                var str = "You Have Entered "  
+                    + "Name: " + name; 
+                $("#modal_body").html(str);  *@
+            }); 
+        </script> 
+    }
+   
+    @* @foreach (var item in Model)
+    {
+        <script>
+            $(function () {
+                $('[id*=@item.ProductId']).on('click', function () {
+                    $.get("Product/Edit" + "@item.ProductId",
+                        function (response) {
+                            $('#modal_body').val(response.productName);
+                        });
+                });
+            });
+        </script>
+    } *@
+}

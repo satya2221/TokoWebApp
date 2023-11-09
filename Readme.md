@@ -1,0 +1,2 @@
+# Toko Web App
+This is simple online e-commerce application as my final project in .NET class. It has API of the e-commerce that connected to database in TokoWebAPI and the application itself in TokoWebApp. Both using ASP.NET Core 7.0 with the application run ASP.NET Web MVC and the API in ASP.NET Web API. For the database using MS SQL Server.
